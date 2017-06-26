@@ -20,16 +20,24 @@
             android:title="Tools" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Statistics">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/stat_week"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="Weekly" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/stat_month"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Monthly" />
+            <item
+                android:id="@+id/stat_year"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Yearly" />
+            <item
+                android:id="@+id/stat_all"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="All" />
         </menu>
     </item>
 
