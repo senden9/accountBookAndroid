@@ -2,10 +2,13 @@ package com.stefano_probst.gridtest;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.DatePicker;
 
@@ -13,12 +16,19 @@ import java.util.Calendar;
 
 public class AddEntry extends AppCompatActivity {
 
-    private int mHour, mMinute, mYear, mMonth, mDay;
+    private int mHour, mMinute, mYear, mMonth, mDay, mID;
+    private CategoryDbHelper mCategoryDB;
+    private SQLiteDatabase db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_entry);
+
+        mCategoryDB = new CategoryDbHelper(getApplicationContext());
+        db = mCategoryDB.getWritableDatabase();
+
         final Calendar c = Calendar.getInstance();
         mHour = c.get(Calendar.HOUR_OF_DAY);
         mMinute = c.get(Calendar.MINUTE);
@@ -31,6 +41,12 @@ public class AddEntry extends AppCompatActivity {
         ((EditText)findViewById(R.id.entry_time)).setText(hourStr+":"+minuteStr);
 
         ((EditText)findViewById(R.id.entry_date)).setText(mDay + "." + (mMonth + 1) + "." + mYear);
+
+        // Get the Intent that started this activity and extract the string
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        mID = Integer.parseInt(message);
+        ((TextView)findViewById(R.id.header)).setText("Add a entry to " + mCategoryDB.getName(db, mID) + ".");
     }
 
     public void timeCallback(View v){
@@ -65,5 +81,11 @@ public class AddEntry extends AppCompatActivity {
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
+    }
+
+    protected void onDestroy() {
+        mCategoryDB.close();
+        db.close();
+        super.onDestroy();
     }
 }

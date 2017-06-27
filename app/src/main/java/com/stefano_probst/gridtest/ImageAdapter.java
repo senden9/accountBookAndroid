@@ -1,6 +1,7 @@
 package com.stefano_probst.gridtest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.DataSetObserver;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class ImageAdapter extends BaseAdapter {
@@ -26,6 +28,7 @@ public class ImageAdapter extends BaseAdapter {
     private CategoryDbHelper mCategoryDB;
     private SQLiteDatabase db;
     private Cursor mCursorIter = null;
+    private Map<Integer, Integer> map; // Position to ID.
 
     public ImageAdapter(Context c) {
         mContext = c;
@@ -61,7 +64,7 @@ public class ImageAdapter extends BaseAdapter {
                 mCursorIter = mCategoryDB.getCategoryList(db);
             }
             if (mCursorIter.moveToNext() == false){
-                Log.e("ImageAdapter", "We are already behind the last element.");
+                Log.e("ImageAdapter", "We are now behind the last element. El" + position);
             }*/
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);

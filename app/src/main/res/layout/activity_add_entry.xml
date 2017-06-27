@@ -7,6 +7,11 @@
     tools:context="com.stefano_probst.gridtest.AddEntry"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Something si wrong. You should not see this." />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

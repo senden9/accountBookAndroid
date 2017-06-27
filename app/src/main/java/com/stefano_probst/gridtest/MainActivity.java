@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private CategoryDbHelper mCategoryDB;
     private SQLiteDatabase db;
+    public static final String EXTRA_MESSAGE = "com.stefano_probst.gridtest.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, "" + position,
                         Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, AddEntry.class);
+                String message = "" + (position+1); // ID. Not clean at the moment…
+                intent.putExtra(EXTRA_MESSAGE, message);
                 startActivity(intent);
             }
         });
@@ -124,6 +127,7 @@ public class MainActivity extends AppCompatActivity
 
     protected void onDestroy() {
         mCategoryDB.close();
+        db.close();
         super.onDestroy();
     }
     }
