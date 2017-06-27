@@ -65,7 +65,7 @@ public class ImageAdapter extends BaseAdapter {
             }*/
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(180, 180));
+            imageView.setLayoutParams(new GridView.LayoutParams(220, 220));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
             int resID = mContext.getResources().getIdentifier(mCategoryDB.getIcon(db,position+1), "mipmap", mContext.getPackageName());

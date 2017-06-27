@@ -1,5 +1,6 @@
 package com.stefano_probst.gridtest;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity
                                     int position, long id) {
                 Toast.makeText(MainActivity.this, "" + position,
                         Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, AddEntry.class);
+                startActivity(intent);
             }
         });
         // End Grid
