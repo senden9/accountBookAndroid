@@ -109,12 +109,26 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
+        } else if (id == R.id.stat_week) {
+            Intent intent = new Intent(MainActivity.this, Statistics.class);
+            String message = "week" ;
+            intent.putExtra(EXTRA_MESSAGE, message);
+            startActivityForResult(intent, 2);
+        } else if (id == R.id.stat_month) {
+            Intent intent = new Intent(MainActivity.this, Statistics.class);
+            String message = "month" ;
+            intent.putExtra(EXTRA_MESSAGE, message);
+            startActivityForResult(intent, 2);
+        } else if (id == R.id.stat_year) {
+            Intent intent = new Intent(MainActivity.this, Statistics.class);
+            String message = "year" ;
+            intent.putExtra(EXTRA_MESSAGE, message);
+            startActivityForResult(intent, 2);
+        } else if (id == R.id.stat_all){
+            Intent intent = new Intent(MainActivity.this, Statistics.class);
+            String message = "all" ;
+            intent.putExtra(EXTRA_MESSAGE, message);
+            startActivityForResult(intent, 2);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
