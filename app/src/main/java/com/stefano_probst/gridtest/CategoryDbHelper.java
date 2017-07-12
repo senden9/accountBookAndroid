@@ -17,6 +17,7 @@ public class CategoryDbHelper extends SQLiteOpenHelper {
     public CategoryDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES);
         // TODO: Remove dummy entries.
@@ -51,18 +52,20 @@ public class CategoryDbHelper extends SQLiteOpenHelper {
         newRowId = db.insert(CategoryEntry.TABLE_NAME, null, values);
         Log.i("DB", "Here is the id of the dummy data: " + newRowId);
     }
+
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO: Relpace!
         db.execSQL(SQL_DELETE_ENTRIES);
         onCreate(db);
     }
+
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
     }
 
     /* Inner class that defines the table contents */
     public static class CategoryEntry implements BaseColumns {
-        public static final String TABLE_NAME = "entry";
+        public static final String TABLE_NAME = "Entry";
         public static final String COLUMN_NAME_NAME = "name";
         public static final String COLUMN_NAME_ICON = "icon";
         public static final String COLUMN_NAME_POSITION = "position";
