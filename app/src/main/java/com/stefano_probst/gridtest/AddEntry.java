@@ -13,12 +13,15 @@ import android.widget.TimePicker;
 import android.widget.DatePicker;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddEntry extends AppCompatActivity {
 
     private int mHour, mMinute, mYear, mMonth, mDay, mID;
+    private SpendingDbHelper mSpendingDB;
     private CategoryDbHelper mCategoryDB;
-    private SQLiteDatabase db;
+    private SQLiteDatabase dbSpending;
+    private SQLiteDatabase dbCategory;
 
 
     @Override
@@ -26,9 +29,13 @@ public class AddEntry extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_entry);
 
+        // Open Databases
+        mSpendingDB = new SpendingDbHelper(getApplicationContext());
+        dbSpending = mSpendingDB.getWritableDatabase();
         mCategoryDB = new CategoryDbHelper(getApplicationContext());
-        db = mCategoryDB.getWritableDatabase();
+        dbCategory = mCategoryDB.getReadableDatabase();
 
+        // Set default values for the input fields
         final Calendar c = Calendar.getInstance();
         mHour = c.get(Calendar.HOUR_OF_DAY);
         mMinute = c.get(Calendar.MINUTE);
@@ -42,11 +49,11 @@ public class AddEntry extends AppCompatActivity {
 
         ((EditText)findViewById(R.id.entry_date)).setText(mDay + "." + (mMonth + 1) + "." + mYear);
 
-        // Get the Intent that started this activity and extract the string
+        // Get the Intent that started this activity and extract the string (ID)
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         mID = Integer.parseInt(message);
-        ((TextView)findViewById(R.id.header)).setText("Add a entry to " + mCategoryDB.getName(db, mID) + ".");
+        ((TextView)findViewById(R.id.header)).setText("Add a entry to " + mCategoryDB.getName(dbCategory, mID) + ".");
     }
 
     public void timeCallback(View v){
@@ -83,9 +90,32 @@ public class AddEntry extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    public void saveCallback(View v){
+        Date date = new Date(mYear, mMonth, mDay, mHour, mMinute);
+        String subject = ((EditText)findViewById(R.id.entry_name)).getText().toString();
+        float value = 0;
+        try {
+            value = Float.parseFloat(((EditText) findViewById(R.id.entry_value)).getText().toString());
+        } catch (NumberFormatException e){
+            return;
+        }
+        long new_id = mSpendingDB.addEntry(dbSpending, subject, (int)(value*100), date, mID);
+
+        // Transfer state back to the main application
+        Intent returnIntent = new Intent();
+        if (new_id<0){
+            setResult(MainActivity.RESULT_CANCELED, returnIntent);
+        } else {
+            setResult(MainActivity.RESULT_OK,returnIntent);
+        }
+        finish();
+    }
+
     protected void onDestroy() {
         mCategoryDB.close();
-        db.close();
+        mSpendingDB.close();
+        dbSpending.close();
+        dbCategory.close();
         super.onDestroy();
     }
 }

@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
             }
         });
 
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, AddEntry.class);
                 String message = "" + (position+1); // ID. Not clean at the moment…
                 intent.putExtra(EXTRA_MESSAGE, message);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
         // End Grid
@@ -124,6 +124,19 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if(resultCode == MainActivity.RESULT_OK){
+                Toast.makeText(MainActivity.this, "Entry successful saved.",
+                        Toast.LENGTH_SHORT).show();
+            }
+            if (resultCode == MainActivity.RESULT_CANCELED) {
+                Toast.makeText(MainActivity.this, "Something is wrong. Not saved.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     protected void onDestroy() {
         mCategoryDB.close();
