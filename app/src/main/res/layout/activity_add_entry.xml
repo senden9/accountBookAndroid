@@ -37,7 +37,7 @@
             android:id="@+id/text_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Value" />
+            android:text="@string/label_value" />
         <EditText
             android:id="@+id/entry_value"
             android:layout_width="wrap_content"

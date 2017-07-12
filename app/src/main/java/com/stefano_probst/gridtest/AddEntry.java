@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -97,6 +98,8 @@ public class AddEntry extends AppCompatActivity {
         try {
             value = Float.parseFloat(((EditText) findViewById(R.id.entry_value)).getText().toString());
         } catch (NumberFormatException e){
+            Toast.makeText(AddEntry.this, "Please enter a valid value for '" + getString(R.string.label_value) + "'.",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
         long new_id = mSpendingDB.addEntry(dbSpending, subject, (int)(value*100), date, mID);

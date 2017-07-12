@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(MainActivity.this, "" + position,
-                        Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, AddEntry.class);
                 String message = "" + (position+1); // ID. Not clean at the moment…
                 intent.putExtra(EXTRA_MESSAGE, message);
@@ -143,4 +141,4 @@ public class MainActivity extends AppCompatActivity
         db.close();
         super.onDestroy();
     }
-    }
+}
