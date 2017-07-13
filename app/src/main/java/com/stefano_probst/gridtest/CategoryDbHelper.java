@@ -20,37 +20,22 @@ public class CategoryDbHelper extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES);
-        // TODO: Remove dummy entries.
+        addCategory("Food", "essen", 0, db);
+        addCategory("Household", "haushalt", 1, db);
+        addCategory("Home", "home", 2, db);
+        addCategory("Car", "kfz", 3, db);
+        addCategory("Fees", "miete", 4, db);
+        addCategory("Leisure", "trinken", 5, db);
+    }
+
+    public long addCategory(String name, String icon, int position, SQLiteDatabase db){
         ContentValues values = new ContentValues();
-        values.put(CategoryEntry.COLUMN_NAME_NAME, "Test Category");
-        values.put(CategoryEntry.COLUMN_NAME_ICON, "essen");
-        values.put(CategoryEntry.COLUMN_NAME_POSITION, 0);
+        values.put(CategoryEntry.COLUMN_NAME_NAME, name);
+        values.put(CategoryEntry.COLUMN_NAME_ICON, icon);
+        values.put(CategoryEntry.COLUMN_NAME_POSITION, position);
         long newRowId = db.insert(CategoryEntry.TABLE_NAME, null, values);
-        Log.i("DB", "Here is the id of the dummy data: " + newRowId);
-        values = new ContentValues();
-        values.put(CategoryEntry.COLUMN_NAME_NAME, "Test 2");
-        values.put(CategoryEntry.COLUMN_NAME_ICON, "kfz");
-        values.put(CategoryEntry.COLUMN_NAME_POSITION, 1);
-        newRowId = db.insert(CategoryEntry.TABLE_NAME, null, values);
-        Log.i("DB", "Here is the id of the dummy data: " + newRowId);
-        values = new ContentValues();
-        values.put(CategoryEntry.COLUMN_NAME_NAME, "Test 3");
-        values.put(CategoryEntry.COLUMN_NAME_ICON, "home");
-        values.put(CategoryEntry.COLUMN_NAME_POSITION, 2);
-        newRowId = db.insert(CategoryEntry.TABLE_NAME, null, values);
-        Log.i("DB", "Here is the id of the dummy data: " + newRowId);
-        values = new ContentValues();
-        values.put(CategoryEntry.COLUMN_NAME_NAME, "Test 4");
-        values.put(CategoryEntry.COLUMN_NAME_ICON, "strom");
-        values.put(CategoryEntry.COLUMN_NAME_POSITION, 2);
-        newRowId = db.insert(CategoryEntry.TABLE_NAME, null, values);
-        Log.i("DB", "Here is the id of the dummy data: " + newRowId);
-        values = new ContentValues();
-        values.put(CategoryEntry.COLUMN_NAME_NAME, "Test 5");
-        values.put(CategoryEntry.COLUMN_NAME_ICON, "trinken");
-        values.put(CategoryEntry.COLUMN_NAME_POSITION, 2);
-        newRowId = db.insert(CategoryEntry.TABLE_NAME, null, values);
-        Log.i("DB", "Here is the id of the dummy data: " + newRowId);
+        Log.d("DB", "Here is the id of new Category: " + newRowId);
+        return newRowId;
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
