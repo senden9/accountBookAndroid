@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- # Not needed at the moment. But i did not delete it because it acts as a template for me.
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camera"
@@ -19,25 +20,26 @@
             android:icon="@drawable/ic_menu_manage"
             android:title="Tools" />
     </group>
+    -->
 
     <item android:title="Statistics">
         <menu>
             <item
                 android:id="@+id/stat_week"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Weekly" />
+                android:icon="@drawable/ic_show_chart"
+                android:title="@string/menu_weekly" />
             <item
                 android:id="@+id/stat_month"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Monthly" />
+                android:icon="@drawable/ic_show_chart"
+                android:title="@string/menu_monthly" />
             <item
                 android:id="@+id/stat_year"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Yearly" />
+                android:icon="@drawable/ic_show_chart"
+                android:title="@string/menu_yearly" />
             <item
                 android:id="@+id/stat_all"
-                android:icon="@drawable/ic_menu_send"
-                android:title="All" />
+                android:icon="@drawable/ic_show_chart"
+                android:title="@string/menu_all" />
         </menu>
     </item>
 

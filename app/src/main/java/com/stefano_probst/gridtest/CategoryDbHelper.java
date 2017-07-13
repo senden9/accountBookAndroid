@@ -21,7 +21,7 @@ public class CategoryDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES);
         addCategory("Food", "essen", 0, db);
-        addCategory("Household", "haushalt", 1, db);
+        addCategory("Household", "household", 1, db);
         addCategory("Home", "home", 2, db);
         addCategory("Car", "kfz", 3, db);
         addCategory("Fees", "miete", 4, db);

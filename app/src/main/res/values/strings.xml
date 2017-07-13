@@ -7,4 +7,9 @@
     <string name="action_settings">Settings</string>
     <string name="action_save">save</string>
     <string name="label_value">Value</string>
+    <string name="add_entry_empty_error">Something si wrong. You should not see this.</string>
+    <string name="menu_all">All</string>
+    <string name="menu_yearly">Yearly</string>
+    <string name="menu_monthly">Monthly</string>
+    <string name="menu_weekly">Weekly</string>
 </resources>

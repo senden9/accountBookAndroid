@@ -107,9 +107,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.stat_week) {
+        // Handle the actions fot the menu.
+        // Open the statistic view with different arguments (time range).
+        if (id == R.id.stat_week) {
             Intent intent = new Intent(MainActivity.this, Statistics.class);
             String message = "week" ;
             intent.putExtra(EXTRA_MESSAGE, message);
