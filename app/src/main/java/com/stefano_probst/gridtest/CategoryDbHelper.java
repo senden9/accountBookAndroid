@@ -3,6 +3,7 @@ package com.stefano_probst.gridtest;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
@@ -108,6 +109,22 @@ public class CategoryDbHelper extends SQLiteOpenHelper {
         );
         cursor.moveToNext();
         return cursor.getString(cursor.getColumnIndexOrThrow(CategoryEntry.COLUMN_NAME_ICON));
+    }
+
+    public long getIDforCategory(SQLiteDatabase db, String name){
+        String[] columns = {CategoryEntry._ID};
+        String[] args = {name};
+        Cursor cursor = db.query(
+                CategoryEntry.TABLE_NAME,
+                columns,
+                CategoryEntry.COLUMN_NAME_NAME+"=?",
+                args,
+                null,
+                null,
+                null
+        );
+        cursor.moveToNext();
+        return cursor.getLong(cursor.getColumnIndexOrThrow(CategoryEntry._ID));
     }
 
 }

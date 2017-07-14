@@ -2,6 +2,7 @@ package com.stefano_probst.gridtest;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
@@ -63,10 +64,8 @@ public class SpendingDbHelper extends SQLiteOpenHelper {
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + SpendingEntry.TABLE_NAME;
 
-    private static String getDateTime(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        return dateFormat.format(date);
+    private static long getDateTime(Date date) {
+        return date.getTime();
     }
 
     public static long addEntry(SQLiteDatabase db, String subject, int value, Date datetime, int category_id){
@@ -78,5 +77,38 @@ public class SpendingDbHelper extends SQLiteOpenHelper {
         long new_id = db.insert(SpendingEntry.TABLE_NAME, null, values);
         Log.d("SpendingDB", "New spending entry with ID " + new_id + ".");
         return new_id;
+    }
+
+    // Get Spendings on a specific day from a category.
+    public float getSpendings(SQLiteDatabase db, Date day, long category_id){
+        Date from = (Date) day.clone();
+        Date to = (Date) day.clone();
+        from.setHours(0);
+        from.setMinutes(0);
+        from.setSeconds(0);
+        to.setHours(23);
+        to.setMinutes(59);
+        to.setSeconds(59);
+        return getSpendings(db, from, to , category_id);
+    }
+
+    // Get spendings from a specific category between 2 dates (datetime).
+    public float getSpendings(SQLiteDatabase db, Date from, Date to, long category_id){
+        String [] selectionArgs = {
+                SpendingEntry.COLUMN_NAME_VALUE,
+                SpendingEntry.TABLE_NAME,
+                SpendingEntry.COLUMN_NAME_CATEGORY,
+                String.valueOf(category_id),
+                SpendingEntry.COLUMN_NAME_DATE,
+                String.valueOf(getDateTime(from)),
+                String.valueOf(getDateTime(to))
+        };
+        //Cursor cursor = db.rawQuery("SELECT TOTAL(?) FROM ? WHERE ? = ? AND ? BETWEEN ? AND ?;", selectionArgs);
+        String query = "SELECT SUM("+ SpendingEntry.COLUMN_NAME_VALUE +") FROM "+ SpendingEntry.TABLE_NAME +" WHERE "+ SpendingEntry.COLUMN_NAME_CATEGORY +" = "+ String.valueOf(category_id) +" AND "+ SpendingEntry.COLUMN_NAME_DATE +" >= "+ getDateTime(from) +" AND "+ SpendingEntry.COLUMN_NAME_DATE +" <= "+ getDateTime(to) +" ;";
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        float retVal = cursor.getInt(0);
+        cursor.close();
+        return retVal;
     }
 }
