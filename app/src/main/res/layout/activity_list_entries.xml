@@ -15,7 +15,7 @@
             android:id="@+id/entry_scroll_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="1"> 
+            android:stretchColumns="1">
         </TableLayout>
     </ScrollView>
 
