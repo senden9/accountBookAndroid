@@ -9,6 +9,7 @@ import android.provider.BaseColumns;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -64,11 +65,11 @@ public class SpendingDbHelper extends SQLiteOpenHelper {
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + SpendingEntry.TABLE_NAME;
 
-    private static long getDateTime(Date date) {
-        return date.getTime();
+    private static long getDateTime(Calendar date) {
+        return date.getTimeInMillis();
     }
 
-    public static long addEntry(SQLiteDatabase db, String subject, int value, Date datetime, int category_id){
+    public static long addEntry(SQLiteDatabase db, String subject, int value, Calendar datetime, int category_id){
         ContentValues values = new ContentValues();
         values.put(SpendingEntry.COLUMN_NAME_SUBJECT, subject);
         values.put(SpendingEntry.COLUMN_NAME_VALUE, value);
@@ -79,32 +80,45 @@ public class SpendingDbHelper extends SQLiteOpenHelper {
         return new_id;
     }
 
+    // Get Spendings on a specific day for all categories.
+    public float getSpendings(SQLiteDatabase db, Calendar day){
+        Calendar from = (Calendar)day.clone();
+        Calendar to = (Calendar)day.clone();
+        from.set(Calendar.HOUR, 0);
+        from.set(Calendar.MINUTE, 0);
+        from.set(Calendar.SECOND, 0);
+        to.set(Calendar.HOUR, 23);
+        to.set(Calendar.MINUTE, 59);
+        to.set(Calendar.SECOND, 59);
+        return getSpendings(db, from, to);
+    }
+
     // Get Spendings on a specific day from a category.
-    public float getSpendings(SQLiteDatabase db, Date day, long category_id){
-        Date from = (Date) day.clone();
-        Date to = (Date) day.clone();
-        from.setHours(0);
-        from.setMinutes(0);
-        from.setSeconds(0);
-        to.setHours(23);
-        to.setMinutes(59);
-        to.setSeconds(59);
+    public float getSpendings(SQLiteDatabase db, Calendar day, long category_id){
+        Calendar from = (Calendar)day.clone();
+        Calendar to = (Calendar)day.clone();
+        from.set(Calendar.HOUR, 0);
+        from.set(Calendar.MINUTE, 0);
+        from.set(Calendar.SECOND, 0);
+        to.set(Calendar.HOUR, 23);
+        to.set(Calendar.MINUTE, 59);
+        to.set(Calendar.SECOND, 59);
         return getSpendings(db, from, to , category_id);
     }
 
     // Get spendings from a specific category between 2 dates (datetime).
-    public float getSpendings(SQLiteDatabase db, Date from, Date to, long category_id){
-        String [] selectionArgs = {
-                SpendingEntry.COLUMN_NAME_VALUE,
-                SpendingEntry.TABLE_NAME,
-                SpendingEntry.COLUMN_NAME_CATEGORY,
-                String.valueOf(category_id),
-                SpendingEntry.COLUMN_NAME_DATE,
-                String.valueOf(getDateTime(from)),
-                String.valueOf(getDateTime(to))
-        };
-        //Cursor cursor = db.rawQuery("SELECT TOTAL(?) FROM ? WHERE ? = ? AND ? BETWEEN ? AND ?;", selectionArgs);
+    public float getSpendings(SQLiteDatabase db, Calendar from, Calendar to, long category_id){
         String query = "SELECT SUM("+ SpendingEntry.COLUMN_NAME_VALUE +") FROM "+ SpendingEntry.TABLE_NAME +" WHERE "+ SpendingEntry.COLUMN_NAME_CATEGORY +" = "+ String.valueOf(category_id) +" AND "+ SpendingEntry.COLUMN_NAME_DATE +" >= "+ getDateTime(from) +" AND "+ SpendingEntry.COLUMN_NAME_DATE +" <= "+ getDateTime(to) +" ;";
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        float retVal = cursor.getInt(0);
+        cursor.close();
+        return retVal;
+    }
+
+    // Get spendings for all categories between 2 dates (datetime).
+    public float getSpendings(SQLiteDatabase db, Calendar from, Calendar to){
+        String query = "SELECT SUM("+ SpendingEntry.COLUMN_NAME_VALUE +") FROM "+ SpendingEntry.TABLE_NAME +" WHERE " + SpendingEntry.COLUMN_NAME_DATE +" >= "+ getDateTime(from) +" AND "+ SpendingEntry.COLUMN_NAME_DATE +" <= "+ getDateTime(to) +" ;";
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
         float retVal = cursor.getInt(0);

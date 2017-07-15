@@ -92,7 +92,8 @@ public class AddEntry extends AppCompatActivity {
     }
 
     public void saveCallback(View v){
-        Date date = new Date(mYear, mMonth, mDay, mHour, mMinute);
+        Calendar date = Calendar.getInstance();
+        date.set(mYear, mMonth, mDay, mHour, mMinute);
         String subject = ((EditText)findViewById(R.id.entry_name)).getText().toString();
         float value = 0;
         try {

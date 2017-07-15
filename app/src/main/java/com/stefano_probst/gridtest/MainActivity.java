@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +20,12 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -154,5 +162,20 @@ public class MainActivity extends AppCompatActivity
         mCategoryDB.close();
         db.close();
         super.onDestroy();
+    }
+
+    // Used during debugging. Copy the Database into the download folder.
+    // Need the write to storage permission. Enable this permission manually.
+    public void copyAppDbToDownloadFolder(String dbName) throws IOException {
+        File backupDB = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), dbName);
+        Log.i("Main", "Try to copy Database to " + backupDB.getPath() + ".");
+        File currentDB = getApplicationContext().getDatabasePath(dbName);
+        if (currentDB.exists()) {
+            FileChannel src = new FileInputStream(currentDB).getChannel();
+            FileChannel dst = new FileOutputStream(backupDB).getChannel();
+            dst.transferFrom(src, 0, src.size());
+            src.close();
+            dst.close();
+        }
     }
 }
