@@ -8,10 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 public class SpendingDbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
@@ -80,7 +77,7 @@ public class SpendingDbHelper extends SQLiteOpenHelper {
         return new_id;
     }
 
-    // Get Spendings on a specific day for all categories.
+    // Get summed spendings on a specific day for all categories.
     public float getSpendings(SQLiteDatabase db, Calendar day){
         Calendar from = (Calendar)day.clone();
         Calendar to = (Calendar)day.clone();
@@ -93,7 +90,7 @@ public class SpendingDbHelper extends SQLiteOpenHelper {
         return getSpendings(db, from, to);
     }
 
-    // Get Spendings on a specific day from a category.
+    // Get summed spendings on a specific day from a category.
     public float getSpendings(SQLiteDatabase db, Calendar day, long category_id){
         Calendar from = (Calendar)day.clone();
         Calendar to = (Calendar)day.clone();
@@ -106,7 +103,7 @@ public class SpendingDbHelper extends SQLiteOpenHelper {
         return getSpendings(db, from, to , category_id);
     }
 
-    // Get spendings from a specific category between 2 dates (datetime).
+    // Get summed spendings from a specific category between 2 dates (datetime).
     public float getSpendings(SQLiteDatabase db, Calendar from, Calendar to, long category_id){
         String query = "SELECT SUM("+ SpendingEntry.COLUMN_NAME_VALUE +") FROM "+ SpendingEntry.TABLE_NAME +" WHERE "+ SpendingEntry.COLUMN_NAME_CATEGORY +" = "+ String.valueOf(category_id) +" AND "+ SpendingEntry.COLUMN_NAME_DATE +" >= "+ getDateTime(from) +" AND "+ SpendingEntry.COLUMN_NAME_DATE +" <= "+ getDateTime(to) +" ;";
         Cursor cursor = db.rawQuery(query, null);
@@ -116,7 +113,7 @@ public class SpendingDbHelper extends SQLiteOpenHelper {
         return retVal;
     }
 
-    // Get spendings for all categories between 2 dates (datetime).
+    // Get summed spendings for all categories between 2 dates (datetime).
     public float getSpendings(SQLiteDatabase db, Calendar from, Calendar to){
         String query = "SELECT SUM("+ SpendingEntry.COLUMN_NAME_VALUE +") FROM "+ SpendingEntry.TABLE_NAME +" WHERE " + SpendingEntry.COLUMN_NAME_DATE +" >= "+ getDateTime(from) +" AND "+ SpendingEntry.COLUMN_NAME_DATE +" <= "+ getDateTime(to) +" ;";
         Cursor cursor = db.rawQuery(query, null);
@@ -124,5 +121,25 @@ public class SpendingDbHelper extends SQLiteOpenHelper {
         float retVal = cursor.getInt(0);
         cursor.close();
         return retVal;
+    }
+
+    public Cursor getCategoryCursor(SQLiteDatabase db, long category_id){
+        String [] whereArgs = {String.valueOf(category_id)};
+        String [] columns = {
+                SpendingEntry._ID,
+                SpendingEntry.COLUMN_NAME_VALUE,
+                SpendingEntry.COLUMN_NAME_DATE,
+                SpendingEntry.COLUMN_NAME_SUBJECT
+        };
+        Cursor cursor = db.query(
+                SpendingEntry.TABLE_NAME, // The table to query
+                columns, // The columns to return. Return all
+                SpendingEntry.COLUMN_NAME_CATEGORY + " = ?", // The columns for the WHERE clause
+                whereArgs, // The values for the WHERE clause
+                null, // don't group the rows
+                null, // don't filter by row groups
+                SpendingEntry.COLUMN_NAME_DATE + " DESC" // The sort order
+        );
+        return cursor;
     }
 }
