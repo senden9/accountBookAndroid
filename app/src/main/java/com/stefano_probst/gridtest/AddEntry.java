@@ -4,17 +4,16 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.DatePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class AddEntry extends AppCompatActivity {
 
@@ -54,7 +53,7 @@ public class AddEntry extends AppCompatActivity {
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         mID = Integer.parseInt(message);
-        ((TextView)findViewById(R.id.header)).setText("Add a entry to " + mCategoryDB.getName(dbCategory, mID) + ".");
+        ((TextView)findViewById(R.id.header)).setText("Add an entry to " + mCategoryDB.getName(dbCategory, mID) + ".");
     }
 
     public void timeCallback(View v){

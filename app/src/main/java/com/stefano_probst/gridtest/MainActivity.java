@@ -1,22 +1,21 @@
 package com.stefano_probst.gridtest;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -61,6 +60,7 @@ public class MainActivity extends AppCompatActivity
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapter(this));
 
+        // Open the new entry activity on press.
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
@@ -70,6 +70,18 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(intent, 1);
             }
         });
+
+        // List entries on a long press.
+        gridview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                Intent intent = new Intent(MainActivity.this, ListEntries.class);
+                String message = "" + (position+1); // ID. Not clean at the moment…
+                intent.putExtra(EXTRA_MESSAGE, message);
+                startActivityForResult(intent, 2);
+                return true;
+            }
+            });
         // End Grid
 
 

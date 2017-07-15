@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,79 +10,77 @@
         android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_entry_empty_error" />
-    <LinearLayout
+        android:text="@string/add_entry_empty_error"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"/>
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/text_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Subject" />
-        <EditText
-            android:id="@+id/entry_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name"
-            android:layout_marginTop="8dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:stretchColumns="1">
+        <TableRow>
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subject"
+                android:layout_marginRight="10dp"/>
+            <EditText
+                android:id="@+id/entry_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name" />
+        </TableRow>
+        <TableRow>
+            <TextView
             android:id="@+id/text_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_value" />
-        <EditText
-            android:id="@+id/entry_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="numberDecimal" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/text_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date" />
-        <EditText
-            android:id="@+id/entry_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:focusable="false"
-            android:inputType="time"
-            android:onClick="dateCallback" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/text_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Time" />
-        <EditText
-            android:id="@+id/entry_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="time"
-            android:focusable="false"
-            android:onClick="timeCallback" />
-    </LinearLayout>
+            <EditText
+                android:id="@+id/entry_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/text_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date" />
+            <EditText
+                android:id="@+id/entry_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:focusable="false"
+                android:inputType="time"
+                android:onClick="dateCallback" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/text_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time" />
+            <EditText
+                android:id="@+id/entry_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="time"
+                android:focusable="false"
+                android:onClick="timeCallback" />
+        </TableRow>
+    </TableLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:text="@string/action_save"
         android:onClick="saveCallback" />
 

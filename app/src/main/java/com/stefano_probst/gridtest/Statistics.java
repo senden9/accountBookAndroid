@@ -3,13 +3,11 @@ package com.stefano_probst.gridtest;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -23,9 +21,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Statistics extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private CategoryDbHelper mCategoryDB;
@@ -67,7 +63,7 @@ public class Statistics extends AppCompatActivity implements AdapterView.OnItemS
         // enable scaling and scrolling
         mGraph.getViewport().setScalable(true);
 
-        // Get the Intent that started this activity and extract the string (ID)
+        // Get the Intent that started this activity and extract the string (Mode / Timeframe)
         Intent intent = getIntent();
         mMode = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
     }
